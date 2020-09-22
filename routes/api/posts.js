@@ -6,6 +6,7 @@ const auth = require('../../middleware/auth');
 const Post = require('../../models/Post');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+var ObjectId = require('mongoose').Types.ObjectId;
 
 // @route   POST api/posts
 // @desc    Create a post
@@ -94,9 +95,7 @@ router.delete('/:id', auth, async (req, res) => {
     res.json({ msg: 'Post removed' });
   } catch (err) {
     console.error(err.message);
-    if (err.kind === 'ObjectId') {
-      return res.status(404).json({ msg: 'Post not found' });
-    }
+
     res.status(500).send('Server Error');
   }
 });
