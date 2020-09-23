@@ -1,3 +1,7 @@
 node_modules/
+<<<<<<< HEAD
 config/default.json
 
+=======
+default.json
+>>>>>>> parent of 553a6d0... Prepared for deployment
