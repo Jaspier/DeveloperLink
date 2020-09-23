@@ -1,7 +1,11 @@
 node_modules/
 <<<<<<< HEAD
+<<<<<<< HEAD
 config/default.json
 =======
 config/default.json
 default.json
 >>>>>>> parent of c672a4d... Revert "Prepared for deployment"
+=======
+default.json
+>>>>>>> parent of 553a6d0... Prepared for deployment
