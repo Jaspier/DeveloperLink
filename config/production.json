@@ -1,7 +1,0 @@
-{
-  "mongoURI": "mongodb+srv://allen123:allen123@developerlink.k9ahz.mongodb.net/<dbname>?retryWrites=true&w=majority",
-  "jwtSecret": "mysecrettoken",
-  "githubToken": "1e9ae4214e207b713ea1a3dcf45cf43e298b69d7",
-  "githubClientId": "fd159b51a97d46c8de5d",
-  "githubSecret": "45571cab98aa1364c3cb765373018003cdc528d3"
-}
