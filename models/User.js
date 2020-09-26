@@ -14,7 +14,6 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // gravatar allows attachment of a pfp associated to an email
   avatar: {
     type: String,
   },
@@ -24,4 +23,4 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-module.exports = User = mongoose.model('user', UserSchema);
+module.exports = mongoose.model('user', UserSchema);
