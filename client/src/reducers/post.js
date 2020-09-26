@@ -35,7 +35,7 @@ export default function (state = initialState, action) {
     case ADD_POST:
       return {
         ...state,
-        posts: [payload, ...state.posts], // adds new post located in payload and adds to a copy of current posts
+        posts: [payload, ...state.posts],
         loading: false,
       };
     case DELETE_POST:
@@ -54,7 +54,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         posts: state.posts.map(post =>
-          post._id === payload.postId ? { ...post, likes: payload.likes } : post
+          post._id === payload.id ? { ...post, likes: payload.likes } : post
         ),
         loading: false,
       };
@@ -70,7 +70,7 @@ export default function (state = initialState, action) {
         post: {
           ...state.post,
           comments: state.post.comments.filter(
-            comment => comment._id !== payload // load all comments except specified id
+            comment => comment._id !== payload
           ),
         },
         loading: false,
