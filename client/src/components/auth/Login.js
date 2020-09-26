@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
 
-const Login = ({ login, isAuthenticated }) => {
+export const Login = ({ login, isAuthenticated }) => {
+  // destructuring login in param so we don't have to use 'props.login' etc
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -12,14 +13,16 @@ const Login = ({ login, isAuthenticated }) => {
 
   const { email, password } = formData;
 
+  // we use '[e.target.name]' instead of 'name' that way we can use the onchange func for every field
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = e => {
+  const onSubmit = async e => {
     e.preventDefault();
     login(email, password);
   };
 
+  //Redirect if logged in
   if (isAuthenticated) {
     return <Redirect to='/dashboard' />;
   }
@@ -28,16 +31,16 @@ const Login = ({ login, isAuthenticated }) => {
     <Fragment>
       <h1 className='large text-primary'>Sign In</h1>
       <p className='lead'>
-        <i className='fas fa-user' /> Sign Into Your Account
+        <i className='fas fa-user'></i> Sign Into Your Account
       </p>
-      <form className='form' onSubmit={onSubmit}>
+      <form className='form' onSubmit={e => onSubmit(e)}>
         <div className='form-group'>
           <input
             type='email'
             placeholder='Email Address'
             name='email'
             value={email}
-            onChange={onChange}
+            onChange={e => onChange(e)}
             required
           />
         </div>
@@ -47,7 +50,7 @@ const Login = ({ login, isAuthenticated }) => {
             placeholder='Password'
             name='password'
             value={password}
-            onChange={onChange}
+            onChange={e => onChange(e)}
             minLength='6'
           />
         </div>

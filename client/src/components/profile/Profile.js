@@ -10,19 +10,24 @@ import ProfileEducation from './ProfileEducation';
 import ProfileGithub from './ProfileGit';
 import { getProfileById } from '../../actions/profile';
 
-const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
+const Profile = ({
+  getProfileById,
+  profile: { profile, loading },
+  auth,
+  match,
+}) => {
   useEffect(() => {
     getProfileById(match.params.id);
   }, [getProfileById, match.params.id]);
 
   return (
     <Fragment>
-      {profile === null ? (
+      {profile === null || loading ? (
         <Spinner />
       ) : (
         <Fragment>
           <Link to='/profiles' className='btn btn-light'>
-            Back To Profiles
+            Back to Profiles
           </Link>
           {auth.isAuthenticated &&
             auth.loading === false &&
@@ -31,7 +36,7 @@ const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
                 Edit Profile
               </Link>
             )}
-          <div className='profile-grid my-1'>
+          <div class='profile-grid my-1'>
             <ProfileTop profile={profile} />
             <ProfileAbout profile={profile} />
             <div className='profile-exp bg-white p-2'>
@@ -84,7 +89,7 @@ Profile.propTypes = {
 
 const mapStateToProps = state => ({
   profile: state.profile,
-  auth: state.auth,
+  auth: state.auth, // if user logged in and profile viewing is theirs, they can edit it
 });
 
 export default connect(mapStateToProps, { getProfileById })(Profile);
