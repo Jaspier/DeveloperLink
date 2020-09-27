@@ -4,13 +4,13 @@ const bcrypt = require('bcryptjs');
 const auth = require('../../middleware/auth');
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const { check, validationResult } = require('express-validator');
+const { check, validationResult } = require('express-validator/check');
 
 const User = require('../../models/User');
 
-// @route   GET api/auth
-// @desc    Test route
-// @access  Public
+// @route    GET api/auth
+// @desc     Get user by token
+// @access   Private
 router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
@@ -21,9 +21,9 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// @route   POST api/auth
-// @desc    Authenticate user & get token
-// @access  Public
+// @route    POST api/auth
+// @desc     Authenticate user & get token
+// @access   Public
 router.post(
   '/',
   [
@@ -39,7 +39,6 @@ router.post(
     const { email, password } = req.body;
 
     try {
-      // See if email exists
       let user = await User.findOne({ email });
 
       if (!user) {
@@ -48,7 +47,6 @@ router.post(
           .json({ errors: [{ msg: 'Invalid Credentials' }] });
       }
 
-      // Check if correct password
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
@@ -57,7 +55,6 @@ router.post(
           .json({ errors: [{ msg: 'Invalid Credentials' }] });
       }
 
-      // Return jsonwebtoken
       const payload = {
         user: {
           id: user.id,
