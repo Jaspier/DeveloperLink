@@ -1,3 +1,4 @@
 node_modules/
 config/default.json
 fast-mesa-21760/
+config/production.json
