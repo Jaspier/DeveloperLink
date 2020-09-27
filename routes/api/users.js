@@ -5,13 +5,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
-const normalize = require('normalize-url');
 
 const User = require('../../models/User');
 
-// @route    POST api/users
-// @desc     Register user
-// @access   Public
+// @route   POST api/users
+// @desc    Register user
+// @access  Public
 router.post(
   '/',
   [
@@ -31,6 +30,7 @@ router.post(
     const { name, email, password } = req.body;
 
     try {
+      // See if user exists
       let user = await User.findOne({ email });
 
       if (user) {
@@ -39,14 +39,12 @@ router.post(
           .json({ errors: [{ msg: 'User already exists' }] });
       }
 
-      const avatar = normalize(
-        gravatar.url(email, {
-          s: '200',
-          r: 'pg',
-          d: 'mm',
-        }),
-        { forceHttps: true }
-      );
+      // Get users gravatar
+      const avatar = gravatar.url(email, {
+        s: '200', // default size
+        r: 'pg', // rating
+        d: 'mm', // default icon
+      });
 
       user = new User({
         name,
@@ -55,12 +53,14 @@ router.post(
         password,
       });
 
-      const salt = await bcrypt.genSalt(10);
+      // Encrypt password
+      const salt = await bcrypt.genSalt(10); // creates hash and puts it into user password
 
       user.password = await bcrypt.hash(password, salt);
 
-      await user.save();
+      await user.save(); // saves user
 
+      // Return jsonwebtoken
       const payload = {
         user: {
           id: user.id,
@@ -70,7 +70,7 @@ router.post(
       jwt.sign(
         payload,
         config.get('jwtSecret'),
-        { expiresIn: '5 days' },
+        { expiresIn: 360000 },
         (err, token) => {
           if (err) throw err;
           res.json({ token });

@@ -9,9 +9,10 @@ import CommentItem from '../post/CommentItem';
 import { getPost } from '../../actions/post';
 
 const Post = ({ getPost, post: { post, loading }, match }) => {
+  // match is the id from the url
   useEffect(() => {
     getPost(match.params.id);
-  }, [getPost, match.params.id]);
+  }, [getPost]);
 
   return loading || post === null ? (
     <Spinner />
